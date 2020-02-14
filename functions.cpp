@@ -47,7 +47,6 @@ void greetAndInstruct() //Q1
 
   while (isTrue == false)
   {
-    //        cin >> answer;
     if (userInput == "y")
     {
       isTrue = true;
@@ -205,7 +204,7 @@ int checkResult(char board[])
   }
 
   for (int j = 0; j < 3; j++)
-  { //check rows over three boards
+  { //check columns over three boards
 
     if ((board[j] == 'O' && board[12 + j] == 'O' && board[24 + j] == 'O') || (board[6 + j] == 'O' && board[12 + j] == 'O' && board[18 + j] == 'O'))
     {
@@ -260,42 +259,44 @@ bool checkWinner(char board[])
     return true;
   }
 
-  return false;
+  return false; //if nobody wins, return false
 };
 
 void computerMove(char board[])
-{
-  int counter = 0;
-  bool seen = false;
-  for (int i = 1; i < 27; i++)
+{//Q4
+  int counter = 0;     // a counter to count total number of moves
+  bool isMove = false; // to check if a move is made
+  for (int i = 1; i <= 27; i++)
   {
-    counter++;
+
     if (checkIfLegal(i, board))
     {
-      board[i - 1] = 'O';
-      if (checkResult(board) != -1)
-      {
-        return;
-      }
-      board[i - 1] = 'X';           //
+      counter++;
+      board[i - 1] = 'X';           // assume player's move
       if (checkResult(board) != -1) // check if the move will make the player winner
       {
         board[i - 1] = 'O';
         return;
       }
-      board[i - 1] = '\0';
+
+      board[i - 1] = 'O'; //move to the cell
+      if (checkResult(board) != -1)
+      {
+        return;
+      }
+      board[i - 1] = '\0';//clear the cell if the move does not make a winner
     }
-    if (counter == 26)
+    if (counter == 26)//if the counter reach the last cell
     {
       for (int j = 1; j < 27; j++)
       {
-        if (board[j - 1] && checkIfLegal(j + 1, board) && seen == false)
+        if (checkIfLegal(j + 1, board) && isMove == false)
         {
           board[j] = 'O';
-          seen = true;
+          isMove = true;
           return;
         }
-        seen = false;
+        isMove = false; //If the move is illegal, no move is made and computer will go to check the next cell
       }
     }
   }

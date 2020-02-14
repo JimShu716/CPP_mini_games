@@ -6,7 +6,6 @@ using namespace std;
 
 int main()
 {
-  cout << "Hello" << endl;
   greetAndInstruct();
 
   char board[27];
@@ -15,17 +14,17 @@ int main()
   displayBoard(board);
 
   while (true)
-  {
+  { //Q5
 
     cout << "It's your turn, please enter a cell number to move: " << endl;
     cin >> userMove;
 
-    while(cin.fail()){
+    while (cin.fail())
+    { //if the input is not number
       cin.clear();
       cin.ignore(INT8_MAX, '\n');
       cout << "Illegal input, please enter a CELL NUMBER to move: " << endl;
       cin >> userMove;
-
     }
 
     if (checkIfLegal(userMove, board) == false)
